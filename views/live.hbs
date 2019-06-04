@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Naxap-Client</title>
+</head>
+<style>
+    .container {
+        width: 500px;
+        margin-top: 50px;
+    }
+</style>
+
+<body>
+    <div class="container" style="overflow:scroll;height:500px">
+        <h3>Last failed, success & current status :</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>API</th>
+                    <th>Last failed</th>
+                    <th>Last success</th>
+                    <th>Current status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Google</td>
+                    <td>{{google.lastfailedtimestamp}}</td>
+                    <td>{{google.lastsuccesstimestamp}}</td>
+                    {{#if google.currentstatus}}
+                    <td style="background:lightgreen">{{google.currentstatus}}</td>
+                    {{/if}}
+                    
+                </tr>
+                <tr>
+                    <td>Bing</td>
+                    <td>{{bing.lastfailedtimestamp}}</td>
+                    <td>{{bing.lastsuccesstimestamp}}</td>
+                    {{#if bing.currentstatus}}
+                    <td style="background:lightgreen">{{bing.currentstatus}}</td>
+                    {{/if}}
+                    {{#unless bing.currentstatus}}
+                    <td style="background:red">{{bing.currentstatus}}</td>
+                    {{/unless}}
+                </tr>
+                <tr>
+                    <td>Infospace</td>
+                    <td>{{infospace.lastfailedtimestamp}}</td>
+                    <td>{{infospace.lastsuccesstimestamp}}</td>
+                     {{#if infospace.currentstatus}}
+                    <td style="background:lightgreen">{{infospace.currentstatus}}</td>
+                    {{/if}}
+                    {{#unless infospace.currentstatus}}
+                    <td style="background:red">{{infospace.currentstatus}}</td>
+                    {{/unless}}
+                </tr>
+                <tr>
+                    <td>DuckDuckgo</td>
+                    <td>{{duckduckgo.lastfailedtimestamp}}</td>
+                    <td>{{duckduckgo.lastsuccesstimestamp}}</td>
+                     {{#if duckduckgo.currentstatus}}
+                    <td style="background:lightgreen">{{duckduckgo.currentstatus}}</td>
+                    {{/if}}
+                    {{#unless duckduckgo.currentstatus}}
+                    <td style="background:red">{{duckduckgo.currentstatus}}</td>
+                    {{/unless}}
+                </tr>
+                <tr>
+                    <td>Baidu</td>
+                    <td>{{baidu.lastfailedtimestamp}}</td>
+                    <td>{{baidu.lastsuccesstimestamp}}</td>
+                     {{#if baidu.currentstatus}}
+                    <td style="background:lightgreen">{{baidu.currentstatus}}</td>
+                    {{/if}}
+                    {{#unless baidu.currentstatus}}
+                    <td style="background:red">{{baidu.currentstatus}}</td>
+                    {{/unless}}
+                </tr>
+                <tr>
+                    <td>custom</td>
+                    <td>{{custom.lastfailedtimestamp}}</td>
+                    <td>{{custom.lastsuccesstimestamp}}</td>
+                     {{#if custom.currentstatus}}
+                    <td style="background:lightgreen">{{custom.currentstatus}}</td>
+                    {{/if}}
+                    {{#unless custom.currentstatus}}
+                    <td style="background:red">{{custom.currentstatus}}</td>
+                    {{/unless}}
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="container" style="overflow:scroll; height:600px;">
+        <center>
+            <h3>Here's the status of ongoing api calls</h3>
+        </center>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Endpoint</th>
+                    <th>Success</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr>
+                    <td>{{this.endpoint}}</td>
+                    <td>{{this.success}}</td>
+                    <td>{{this.timestamp}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Bytescare-Client</title>
+  </head>
+  <style>
+      .container{
+          width:500px;
+          margin-top: 50px;
+      }
+  </style>
+  <body>
+      <div class="container">
+<form action='' method="POST">
+  <div class="form-group">
+      <center><h4>Bytescare-client login</h4></center>
+    <label for="email">Email address</label>
+    <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" name="pass" placeholder="Password">
+  </div>
+  <center><div class="alert alert-danger" role="alert">{{data}}</div></center>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form></div>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Bytescare-Client-Dashboard</title>
+  </head>
+  <style>
+      .container{
+          width:500px;
+          margin-top: 50px;
+      }
+  </style>
+    <body>
+        <center><h4>Connected to bytescare-server user id: {{user_id}}</h4>
+        <br/>
+        <img src="loading.gif" alt="connected to bytescare servers."><br/>
+        <small>You have successfully connected to bytescare servers.</small>
+        <br/>
+        <br/>
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/logout'">LOGOUT</button>
+        </center>
+        <center><div class="running_porcesses">
+            <br/>{{rprocess}}</div><br/>
+        </div>
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">query_name</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Processor</td>
+      <td>{{processor}}</td>
+    </tr>
+  </tbody>
+</table>
+        
+        
+        
+        
+        </center>
+    </body>
+    </html>
