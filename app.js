@@ -131,7 +131,7 @@ app.get('/dashboard', (req, res) => {
         res.render('dashboard', {
             user_id: req.user,
             rprocess: 'hello ' + rprocess + '!',
-            processor: shell.exec('sysctl -n machdep.cpu.brand_string'),
+            //processor: shell.exec('sysctl -n machdep.cpu.brand_string'),
         });
     }
     else {
