@@ -1,0 +1,18 @@
+{
+    "port": 3001,
+    "environments": {
+        "development": 0,
+        "production": 1
+    },
+    "paths": {
+        "logs": "./logs"
+    },
+    "namespace": "87b426a9-5e67-4b98-93d6-8d0abf4d328a",
+    "currentEnv": 0,
+    "sessionSecret": "97f81a7f-bd16-4285-afdd-3e3dfb1071c5",
+    "redisConfig": {
+        "host": "localhost",
+        "port": 6379,
+        "ttl": 260
+    }
+}

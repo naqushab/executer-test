@@ -1,4 +1,4 @@
-//modules
+//Modules
 const express = require('express');
 const hbs = require('hbs');
 var bodyParser = require('body-parser');
@@ -10,22 +10,126 @@ const scrapper = require('se-scraper');
 const CronJob = require('cron').CronJob;
 const fs = require('fs');
 var port = process.env.PORT || 3001;
+const readConfig =  require('jsonfile').readFileSync;;
 
-//internal_modules
+//Internal_modules
 se = require('./routes/controllers/searchengine');
 custom = require('./routes/controllers/customtasks');
 core = require('./routes/models/functions');
 systemresources = require('./routes/controllers/systemres');
 
-//authentication_packages
+//Load Config File
+try {
+    var config = readConfig(process.argv[2] || "config.json");
+} catch (e) {
+    console.log("[error] " + new Date().toGMTString() + " : Server Config Not Found.");
+    return process.exit(-1);
+}
+
+global.__logPath = config.paths.logs || "./logs";
+
+//Global Variable
+process.env.NODE_ENV = config.currentEnv;
+global.__namespace = config.namespace;
+global.__asset_namespace = config.asset_namespace;
+global.__ENV_LIST = config.environments;
+// Create Project Directories if Not exists
+const dirs = [__logPath];
+dirs.forEach(dir => {
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+    }
+});
+//Set logger
+if (process.env.NODE_ENV == global.__ENV_LIST.development) {
+    //Global Debug Function
+    global.__debug = function (msg, obj, stringify) {
+        if (obj)
+            console.log("[debug] " + new Date().toGMTString() + " : " + msg + " => ", ((stringify) ? JSON.stringify(obj) : obj));
+        else
+            console.log("[debug] " + new Date().toGMTString() + " : " + msg);
+        return obj;
+    }
+
+    //Global Error Function
+    global.__error = function (msg, obj) {
+        var data;
+        if (obj)
+            console.log("[error] " + new Date().toGMTString() + " : " + msg + " => ", obj.stack || JSON.stringify(obj));
+        else
+            console.log("[error] " + new Date().toGMTString() + " : " + msg);
+        return obj;
+    }
+
+    //Global Info Function
+    global.__info = function (msg, obj, stringify) {
+        if (obj)
+            console.log("[info] " + new Date().toGMTString() + " : " + msg + " => ", ((stringify) ? JSON.stringify(obj) : obj));
+        else
+            console.log("[info] " + new Date().toGMTString() + " : " + msg);
+        return obj;
+    }
+    //Global Security Function
+    global.__security = function (ip, msg, obj, stringify) {
+        if (obj)
+            console.log("[security] " + new Date().toGMTString() + " : " + ip + " : " + msg + " => ", ((stringify) ? JSON.stringify(obj) : obj));
+        else
+            console.log("[security] " + new Date().toGMTString() + " : " + ip + " : " + msg);
+        return obj;
+    }
+} else {
+    //Global Debug Function
+    global.__debug = function (msg, obj, stringify) {
+        if (obj)
+            data = ("[debug] " + new Date().toGMTString() + " : " + msg + " => ", ((stringify) ? JSON.stringify(obj) : obj));
+        else
+            data = ("[debug] " + new Date().toGMTString() + " : " + msg);
+        fs.appendFileSync(_logPath + '/debug' + (new Date()).toISOString().split(/[-:]/i).slice(0, 3).join('') + '.log', data)
+        return obj;
+    }
+
+    //Global Error Function
+    global.__error = function (msg, obj) {
+        if (obj)
+            data = ("[error] " + new Date().toGMTString() + " : " + msg + " => ", obj.stack || JSON.stringify(obj));
+        else
+            data = ("[error] " + new Date().toGMTString() + " : " + msg);
+        fs.appendFileSync(_logPath + '/error' + (new Date()).toISOString().split(/[-:]/i).slice(0, 3).join('') + '.log', data)
+        return obj;
+    }
+
+    //Global Info Function
+    global.__info = function (msg, obj, stringify) {
+        if (obj)
+            data = ("[info] " + new Date().toGMTString() + " : " + msg + " => ", ((stringify) ? JSON.stringify(obj) : obj));
+        else
+            data = ("[info] " + new Date().toGMTString() + " : " + msg);
+        fs.appendFileSync(_logPath + '/info' + (new Date()).toISOString().split(/[-:]/i).slice(0, 3).join('') + '.log', data)
+        return obj;
+    }
+
+    //Global Security Function
+    global.__security = function (ip, msg, obj, stringify) {
+        if (obj)
+            data = ("[security] " + new Date().toGMTString() + " : " + ip + " : " + msg + " => ", ((stringify) ? JSON.stringify(obj) : obj));
+        else
+            data = ("[security] " + new Date().toGMTString() + " : " + ip + " : " + msg);
+        fs.appendFileSync(_logPath + '/security' + (new Date()).toISOString().split(/[-:]/i).slice(0, 3).join('') + '.log', data)
+        return obj;
+    }
+}
+
+
+
+//Authentication Packages
 const session = require('express-session');
 var passport = require('passport');
 var MySQLStore = require('express-mysql-session')(session);
 
 app = express();
-//installing express-session on our app.
+//Installing Express-session
 app.use(session({
-    secret: 'naxap-by-anurag',
+    secret: config.sessionSecret,
     resave: false,
     saveUninitialized: false,
 }));
@@ -131,7 +235,7 @@ app.get('/dashboard', (req, res) => {
         res.render('dashboard', {
             user_id: req.user,
             rprocess: 'hello ' + rprocess + '!',
-            //processor: shell.exec('sysctl -n machdep.cpu.brand_string'),
+            processor: shell.exec('sysctl -n machdep.cpu.brand_string'),
         });
     }
     else {
