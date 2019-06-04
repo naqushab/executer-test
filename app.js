@@ -54,6 +54,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     request.post({
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         url: 'http://localhost:3000/api/checkcredentials',
@@ -75,7 +77,7 @@ app.post('/', (req, res) => {
             else if (body == 'error') {
                 return res.render('index', {
                     data: 'SORRY,ERROR OCCURED'
-                    
+
                 });
             }
             else if (body == 'CORRECT_CREDENTIALS') {
@@ -141,26 +143,26 @@ app.get('/live', (req, res) => {
     if (req.isAuthenticated()) {
         var fileContents;
         try {
-            fileContents = fs.readFileSync('localdata.json','utf-8');
+            fileContents = fs.readFileSync('localdata.json', 'utf-8');
         } catch (err) {
             fileContents = null;
         }
-        if(fileContents!=null){
+        if (fileContents != null) {
             logarray = JSON.parse(fileContents);
             logarray.logs.reverse();
-            res.render('live',{
+            res.render('live', {
                 data: logarray.logs,
-                google:core.lastsuccessorfailedstatus('google',logarray.logs),
-                bing:core.lastsuccessorfailedstatus('bing',logarray.logs),
-                baidu:core.lastsuccessorfailedstatus('baidu',logarray.logs),
-                infospace:core.lastsuccessorfailedstatus('infospace',logarray.logs),
-                duckduckgo:core.lastsuccessorfailedstatus('duckduckgo',logarray.logs),
-                custom:core.lastsuccessorfailedstatus('custom',logarray.logs)
+                google: core.lastsuccessorfailedstatus('google', logarray.logs),
+                bing: core.lastsuccessorfailedstatus('bing', logarray.logs),
+                baidu: core.lastsuccessorfailedstatus('baidu', logarray.logs),
+                infospace: core.lastsuccessorfailedstatus('infospace', logarray.logs),
+                duckduckgo: core.lastsuccessorfailedstatus('duckduckgo', logarray.logs),
+                custom: core.lastsuccessorfailedstatus('custom', logarray.logs)
             });
         }
         else {
-            res.render('live',{
-                data:"NO RECORDS YET"
+            res.render('live', {
+                data: "NO RECORDS YET"
             })
         }
     }
@@ -168,6 +170,6 @@ app.get('/live', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log('SERVER STARTED AT PORT '+port);
+    console.log('SERVER STARTED AT PORT ' + port);
 
 });
