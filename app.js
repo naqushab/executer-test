@@ -9,6 +9,7 @@ const { exec } = require('child_process');
 const scrapper = require('se-scraper');
 const CronJob = require('cron').CronJob;
 const fs = require('fs');
+var port = process.env.PORT || 3001;
 
 //internal_modules
 se = require('./routes/controllers/searchengine');
@@ -129,7 +130,6 @@ app.get('/dashboard', (req, res) => {
             user_id: req.user,
             rprocess: 'hello ' + rprocess + '!',
             processor: shell.exec('sysctl -n machdep.cpu.brand_string'),
-            mac_address:shell.exec('ifconfig en1 | awk "/ether/{print $2}"')
         });
     }
     else {
@@ -167,7 +167,7 @@ app.get('/live', (req, res) => {
     else res.redirect('/');
 });
 
-app.listen(3001, () => {
-    console.log('SERVER STARTED AT PORT 3001');
+app.listen(port, () => {
+    console.log('SERVER STARTED AT PORT '+port);
 
 });
